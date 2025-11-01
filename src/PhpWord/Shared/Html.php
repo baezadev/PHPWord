@@ -685,6 +685,12 @@ class Html
         $bidi = ($selectors['direction'] ?? '') === 'rtl';
         foreach ($selectors as $property => $value) {
             switch ($property) {
+                case 'table-layout':
+                    if ($value === 'fixed') {
+                        $styles['layout'] = \PhpOffice\PhpWord\Style\Table::LAYOUT_FIXED;
+                    }
+
+                    break;
                 case 'text-decoration':
                     switch ($value) {
                         case 'underline':
