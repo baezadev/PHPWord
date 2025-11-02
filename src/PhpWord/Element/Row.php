@@ -74,6 +74,7 @@ class Row extends AbstractElement
         $cell->setParentContainer($this);
         $this->cells[] = $cell;
 
+        $cell->setTblHeader($this->style->isTblHeader());
         return $cell;
     }
 

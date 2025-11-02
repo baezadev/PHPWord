@@ -308,6 +308,7 @@ class Html
      */
     protected static function parseParagraph($node, $element, &$styles)
     {
+        $styles['keepNext'] = true;
         $styles['paragraph'] = self::recursiveParseStylesInHierarchy($node, $styles['paragraph']);
         if (isset($styles['paragraph']['isPageBreak']) && $styles['paragraph']['isPageBreak']) {
             return $element->addPageBreak();
@@ -442,12 +443,22 @@ class Html
      *
      * @return Row $element
      */
-    protected static function parseRow($node, $element, &$styles)
+    protected static function parseRow(DOMNode $node, $element, &$styles)
     {
         $rowStyles = self::parseInlineStyle($node, $styles['row']);
-        if ($node->parentNode->nodeName == 'thead') {
+
+        // Si es el header
+        if ($node->parentNode->nodeName == 'thead' || $node->firstChild->nodeName == 'th') {
             $rowStyles['tblHeader'] = true;
+            $rowStyles['cantSplit'] = true;
         }
+
+        // A la primera fila de una tabla hacemos que no pueda partirse
+        if($node->parentNode->firstChild->nextSibling === $node) {
+            $rowStyles['cantSplit'] = true;
+        }
+
+        $rowStyles['cantSplit'] = true;
 
         // set cell height to control row heights
         $height = $rowStyles['height'] ?? null;
@@ -1018,7 +1029,8 @@ class Html
         }
         $src = urldecode($src);
 
-        if (!is_file($src)
+        if (
+            !is_file($src)
             && null !== self::$options
             && isset(self::$options['IMG_SRC_SEARCH'], self::$options['IMG_SRC_REPLACE'])
         ) {

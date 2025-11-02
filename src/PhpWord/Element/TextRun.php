@@ -94,4 +94,29 @@ class TextRun extends AbstractContainer
 
         return $outstr;
     }
+
+    /**
+     * @var bool
+     */
+    protected $keepNext = false;
+
+    /**
+     * Define si el párrafo se mantiene con el siguiente (Word: keepNext)
+     *
+     * @param bool $value
+     */
+    public function setKeepNext(bool $value): void
+    {
+        $this->keepNext = $value;
+    }
+
+    /**
+     * Devuelve si este párrafo debe mantenerse con el siguiente
+     *
+     * @return bool
+     */
+    public function isKeepNext(): bool
+    {
+        return $this->keepNext;
+    }
 }

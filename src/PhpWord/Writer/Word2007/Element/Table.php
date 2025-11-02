@@ -18,6 +18,7 @@
 
 namespace PhpOffice\PhpWord\Writer\Word2007\Element;
 
+use Log;
 use PhpOffice\PhpWord\Element\Cell as CellElement;
 use PhpOffice\PhpWord\Element\Row as RowElement;
 use PhpOffice\PhpWord\Element\Table as TableElement;
@@ -117,9 +118,6 @@ class Table extends AbstractElement
         $xmlWriter->endElement(); // w:tr
     }
 
-    /**
-     * Write cell.
-     */
     private function writeCell(XMLWriter $xmlWriter, CellElement $cell): void
     {
         $xmlWriter->startElement('w:tc');
@@ -130,6 +128,15 @@ class Table extends AbstractElement
             $styleWriter = new CellStyleWriter($xmlWriter, $cellStyle);
             $styleWriter->setWidth($cell->getWidth());
             $styleWriter->write();
+        }
+
+        // 👇 Nuevo bloque: marcar TextRuns si la celda es encabezado
+        if ($cell->isTblHeader()) {
+            foreach ($cell->getElements() as $element) {
+                if ($element instanceof \PhpOffice\PhpWord\Element\TextRun) {
+                    $element->setKeepNext(true);
+                }
+            }
         }
 
         // Write content

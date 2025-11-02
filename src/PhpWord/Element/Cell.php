@@ -44,6 +44,18 @@ class Cell extends AbstractContainer
      */
     private $style;
 
+    private $isTblHeader = false;
+
+    public function setTblHeader(bool $value): void
+    {
+        $this->isTblHeader = $value;
+    }
+
+    public function isTblHeader(): bool
+    {
+        return $this->isTblHeader;
+    }
+
     /**
      * Create new instance.
      *

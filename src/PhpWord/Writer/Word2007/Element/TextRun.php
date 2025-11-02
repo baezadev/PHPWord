@@ -1,5 +1,6 @@
 <?php
 
+
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -18,6 +19,9 @@
 
 namespace PhpOffice\PhpWord\Writer\Word2007\Element;
 
+use Log;
+use PhpOffice\PhpWord\Element\TextRun as ElementTextRun;
+
 /**
  * TextRun element writer.
  *
@@ -34,6 +38,14 @@ class TextRun extends Text
         $element = $this->getElement();
 
         $this->startElementP();
+
+        // Verificar si tiene keepNext
+        if ($element instanceof ElementTextRun && $element->isKeepNext()) {
+            $xmlWriter->startElement('w:pPr');
+            $xmlWriter->startElement('w:keepNext');
+            $xmlWriter->endElement(); // w:keepNext
+            $xmlWriter->endElement(); // w:pPr
+        }
 
         $containerWriter = new Container($xmlWriter, $element);
         $containerWriter->write();

@@ -21,6 +21,7 @@ namespace PhpOffice\PhpWord\Writer\Word2007\Element;
 use PhpOffice\PhpWord\Element\AbstractContainer as ContainerElement;
 use PhpOffice\PhpWord\Element\AbstractElement as Element;
 use PhpOffice\PhpWord\Element\TextBreak as TextBreakElement;
+use PhpOffice\PhpWord\Element\TextRun;
 use PhpOffice\PhpWord\Shared\XMLWriter;
 
 /**
