@@ -75,6 +75,15 @@ class Row extends AbstractElement
         $this->cells[] = $cell;
 
         $cell->setTblHeader($this->style->isTblHeader());
+
+        // Set vertical alignment to center for header cells by default
+        if ($this->style->isTblHeader()) {
+            $cellStyle = $cell->getStyle();
+            if ($cellStyle !== null && $cellStyle->getVAlign() === null) {
+                $cellStyle->setVAlign(\PhpOffice\PhpWord\SimpleType\VerticalJc::CENTER);
+            }
+        }
+
         return $cell;
     }
 
