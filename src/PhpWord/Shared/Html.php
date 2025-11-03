@@ -453,12 +453,7 @@ class Html
             $rowStyles['cantSplit'] = true;
         }
 
-        // A la primera fila de una tabla hacemos que no pueda partirse
-        if($node->parentNode->firstChild->nextSibling === $node) {
-            $rowStyles['cantSplit'] = true;
-        }
 
-        $rowStyles['cantSplit'] = true;
 
         // set cell height to control row heights
         $height = $rowStyles['height'] ?? null;

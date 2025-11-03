@@ -67,7 +67,24 @@ class Table extends AbstractElement
             }
 
             $xmlWriter->endElement(); // w:tbl
+
+            // Add spacing after table
+            $this->writeSpacingParagraph($xmlWriter, 100, 'after');
         }
+    }
+
+    /**
+     * Write a paragraph with spacing after table.
+     */
+    private function writeSpacingParagraph(XMLWriter $xmlWriter, int $spacing, string $type): void
+    {
+        $xmlWriter->startElement('w:p');
+        $xmlWriter->startElement('w:pPr');
+        $xmlWriter->startElement('w:spacing');
+        $xmlWriter->writeAttribute('w:before', $spacing);
+        $xmlWriter->endElement(); // w:spacing
+        $xmlWriter->endElement(); // w:pPr
+        $xmlWriter->endElement(); // w:p
     }
 
     /**
